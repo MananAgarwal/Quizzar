@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title> Quizzar </title>
+
+  <style>
+  @import url(http://fonts.googleapis.com/css?family=Open+Sans:400,700);
+  * {
+      margin: 0px;
+      padding: 0px;
+      font: 18px 'Open Sans', sans-serif;
+      border: none;
+      outline: none;
+      box-sizing: border-box;
+    }
+    .wrapper {
+      display: flex;
+      height:100vh;
+      width:100vw;
+      background-color: #1A1423;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .flex-container {
+      width: 600px;
+      list-style: none;
+      display: flex;
+      flex-flow: row wrap;
+      background: url("astro_pic.jpg") no-repeat center center;
+      background-size: cover;
+    }
+
+    .flex-item {
+      background: #B75D69;
+      border: 2px #EACDC2 solid;
+      width: 100px;
+      height: 100px;
+
+      line-height: 100px;
+      color: #EACDC2;
+      font-weight: bold;
+      font-size: 3em;
+      text-align: center;
+    }
+
+    .layer2{
+      background-color: grey;
+    }
+
+    .layer3{
+      background-color: grey;
+    }
+
+
+
+    /*/////////////////// MODAL ///////////////////*/
+    .modal {
+        display: none; /* Hidden by default */
+        position: fixed;
+        z-index: 1;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+        overflow: auto; /* Enable scroll if needed */
+        background-color: rgba(0,0,0,0.5);
+        -webkit-animation-name: fadeIn;
+        -webkit-animation-duration: 0.4s;
+        animation-name: fadeIn;
+        animation-duration: 0.4s
+    }
+
+    .modal-content {
+        position: relative;
+        top: 30vh;
+        background-color: #D6C2A3;
+        width: 80%;
+        margin: auto;
+        -webkit-animation-name: slideIn;
+        -webkit-animation-duration: 0.4s;
+        animation-name: slideIn;
+        animation-duration: 0.4s
+    }
+
+    .close {
+        color: white;
+        float: right;
+        font-size: 22px;
+        font-weight: bold;
+    }
+
+    .close:hover,
+    .close:focus {
+        color: #000;
+        text-decoration: none;
+        cursor: pointer;
+    }
+
+    #modal-header {
+        padding: 10px 22px;
+        background-color: #372549;
+        color: #EACDC2;
+    }
+
+    #modal-body {
+      padding: 10px 22px;
+      background-color: #EACDC2;
+      color: #372549;
+   }
+
+    /* Add Animation */
+    @-webkit-keyframes slideIn {
+        from {top: -100px; opacity: 0}
+        to {top: 30vh; opacity: 1}
+    }
+
+    @keyframes slideIn {
+        from {top: -100px; opacity: 0}
+        to {top: 30vh; opacity: 1}
+    }
+
+    @-webkit-keyframes fadeIn {
+        from {opacity: 0}
+        to {opacity: 1}
+    }
+
+    @keyframes fadeIn {
+        from {opacity: 0}
+        to {opacity: 1}
+    }
+
+  </style>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
+</head>
+
+<body>
+  <div class="wrapper">
+
+    <div id="myModal" class="modal">
+      <div class="modal-content">
+        <div id="modal-header">
+          <span class="close">&times;</span>
+          <h2 id="ques_header"></h2>
+        </div>
+        <div id="modal-body">
+        </div>
+      </div>
+    </div>
+
+    <ul class="flex-container">
+      <li class="flex-item">1</li>
+      <li class="flex-item">2</li>
+      <li class="flex-item">3</li>
+      <li class="flex-item">4</li>
+      <li class="flex-item">5</li>
+      <li class="flex-item">6</li>
+
+      <li class="flex-item">7</li>
+      <li class="flex-item layer2">8</li>
+      <li class="flex-item layer2">9</li>
+      <li class="flex-item layer2">10</li>
+      <li class="flex-item layer2">11</li>
+      <li class="flex-item">12</li>
+
+      <li class="flex-item">13</li>
+      <li class="flex-item layer2">14</li>
+      <li class="flex-item layer3">15</li>
+      <li class="flex-item layer3">16</li>
+      <li class="flex-item layer2">17</li>
+      <li class="flex-item">18</li>
+
+      <li class="flex-item">19</li>
+      <li class="flex-item layer2">20</li>
+      <li class="flex-item layer3">21</li>
+      <li class="flex-item layer3">22</li>
+      <li class="flex-item layer2">23</li>
+      <li class="flex-item">24</li>
+
+      <li class="flex-item">25</li>
+      <li class="flex-item layer2">26</li>
+      <li class="flex-item layer2">27</li>
+      <li class="flex-item layer2">28</li>
+      <li class="flex-item layer2">29</li>
+      <li class="flex-item">30</li>
+
+      <li class="flex-item">31</li>
+      <li class="flex-item">32</li>
+      <li class="flex-item">33</li>
+      <li class="flex-item">34</li>
+      <li class="flex-item">35</li>
+      <li class="flex-item">36</li>
+    </ul>
+  </div>
+
+ <script type="text/javascript">
+   var ques_bank = {
+     Q1: {
+       title: 'Question 1',
+       question: "In the movie Inception, which is about entering peoples dreams to influence their ideas and decisions, the following thing happens Cobb and Mr. Saito are together inside a dream. But in the end when Cobb finds Saito in limbo, he sees that Saito is much older than him. If both the people entered the dream together, how do you justify the huge age difference between them in the 4th level of the dream? Hint There are two reasons for this. One is that Saito was shot, he was dying. Write the other major reason."
+     },
+     Q2: {
+       title: 'Question 2',
+       question: "The aliens in the movie Edge of Tomorrow have been referred to as a superorganism or Many organisms acting together like a single organism. How is calling the aliens a superorganism justified in the movie?"
+     },
+     Q3: {
+       title: 'Question 3',
+       question: "When, in SteinsGate, Faris sends a D Mail, its significance is overlooked by Okabe and the others, but it turns out that in that world line, there are drastic changes where the landscape of their city itself has changed. What phenomenon can this be attributed to?"
+     },
+     Q4: {
+       title: 'Question 4',
+       question: "A very popular plot hole in the Back to the Future series that has been pointed out by many is a scene where young Jennifer Parker travels to the future, and runs into her older self. Shocked, both the Jennifers ,the one belonging to the time and the one who has travelled from the past faint. What is the loophole?"
+     },
+     Q5: {
+       title: 'Question 5',
+       question: "In the movie Interstellar, Brand was greeted with a handshake of a higher dimensional being during their travel through the wormhole. What current theory supports the existence of these higher dimension?"
+     },
+     Q6: {
+       title: 'Question 6',
+       question: "Gravity plates introduced in the Star Trek franchise is a method of producing artificial gravity. How do they work?"
+     },
+     Q7: {
+       title: 'Question 7',
+       question: "In Avatar, the spaceships used to travel to Pandora use antimatter matter annihilation as fuel. What major advantage does this have over more conventional sci fi fuels such as nuclear fusion?"
+     },
+     Q8: {
+       title: 'Question 8',
+       question: "In the movie Gatacca, Jerome is confused about the statement quoted by Vincent We are remnants of a star, because as far as he knows the highest element that can be formed due to stellar nucleosynthesis or fusion occurring in a star is Iron. Which celestial event do you think explains the occurrence of elements with atomic weight higher than that of Iron on Earth?"
+     },
+     Q9: {
+       title: 'Question 9',
+       question: "In SteinsGate, Mayuris death was a convergence point in the sense that all the world lines with divergence number 0 to 1 were of the alpha attractor field. Was Kurisus death also a convergence point of some group of infinite number of world lines?"
+     },
+     Q10: {
+       title: 'Question 10',
+       question: "Unobtanium in Avatar is a mineral that is a superconductor at room temperature. This allows floating mountains in regions of high magnetic fields depicted as Hallelujah Mountains in the film. How?"
+     },
+     Q11: {
+       title: 'Question 11',
+       question: "The movie Timecrimes tells the story of an ordinary guy Hector  who unwittingly falls into a time loop after trying to flee a masked assailant. He is forced to keep the time paradox intact lest it endanger his own existence. At any point in the timeline there are 3 Hectors all of whose actions are predestined. If any of the three Hectors decides to deviate from the predestined course of actions, what effects would it have?"
+     },
+     Q12: {
+       title: 'Question 12',
+       question: "In the movie The Matrix, the machines controlling the simulation use human bodies as a power source. Why is that unfeasible?"
+     },
+     Q13: {
+       title: 'Question 13',
+       question: "The biggest twist in the movie Zathura  A Space Adventure is that the astronaut who comes to help the brothers in their adventure is actually the older brother himself in his future form. How can they both exist simultaneously? Give a proof from the movie to support your claim."
+     },
+     Q14: {
+       title: 'Question 14',
+       question: "The title of the book 20,000 Leagues Under The Sea what does 20,000 signify"
+     },
+     Q15: {
+       title: 'Question 15',
+       question: "In the book 20,000 Leagues Under The Sea, Captain Nemo claims that he can reach the South Pole underwater through his submarine the Nautilus. Do you think such a travel is possible? State reasons. What about the North Pole?"
+     },
+     Q16: {
+       title: 'Question 16',
+       question: "Psychohistory ,a mathematical model that was used by Hari Seldon to predict the course of future events assumes that the actions of each individual are unpredictable and essentially random it can only predict the actions of a sufficiently large mob in case of the galaxy, a quintillion people. In the novel, Foundation and Empire, the entry of the Mule, an empath, resulted in the failure of Psychohistory. Can you figure out why?"
+     },
+     Q17: {
+       title: 'Question 17',
+       question: "Isaac Asimov gave the three laws of robotics, A robot may not injure a human being, or, through inaction, allow a human being to come to harm.A robot must obey the orders given it by human beings except where such orders would conflict with the First Law.A robot must protect its own existence as long as such protection does not conflict with the First or Second Laws.These laws were first given in the short story Runaround, from the short story collection I, Robot. In this story, a robot called Speedy keeps running around a pool of selenium in circles after being ordered to extract some by Mike Donovan. The line of robots that Speedy belongs to are built to especially obey Rule 3 since they are very expensive. Knowing this, and the fact that the order was given casually, can you predict why Speedy was running around in circles?"
+     },
+     Q18: {
+       title: 'Question 18',
+       question: "In The End of Eternity by Isaac Asimov, he explores the subject of time travel and changing realities by imagining an agency called Eternity that existed out of time and could change reality as well as facilitate trade between different centuries. It is centred on a causal loop, wherein the protagonist, Andrew Harlan, sends a man ,Brinsley Sheridan Cooper to the 20th century, instead of the 27th century. Cooper then attempts to send a message to the future through magazines, of which Harlan possesses a collection. He sends this ad.   What does this message signify?"
+     },
+     Q19: {
+       title: 'Question 19',
+       question: "The way time travel works in Primer is that a person switches on the time machine, waits, say 6 hours, and goes in for 6 hours. He or she comes back out 6 hours ago. Why does the machine need to be switched on in advance?"
+     },
+     Q20: {
+       title: 'Question 20',
+       question: "In this video clip from the movie The Martian, explain what does the constant rotation of the Hermes spacecraft accomplish."
+     },
+     Q21: {
+       title: 'Question 21',
+       question: "The movie Timecrimes contains reference to not one but two scientific paradoxes, the first one being the Predestination Paradox. At any point in the timeline there are 3 Hectors each of whose actions are predetermined. In a scene in the movie Barbara Goenaga who plays an unsuspecting girl, unaware of the obfuscating happenings around her, falls off the roof of Hectors home while one of the Hectors is chasing her. Second Hector who is hiding inside the house sees her fall but Hector1, who is chasing her doesnt. Quoting Timecrimes writer Nacho Vigalondo, The quantum mechanics aspect is the girl. We put an image of Schrodingers cat on the girls shirt . At this point in the movie the girl is dead and alive at the same time. What determines whether the girl is dead or alive?"
+     },
+     Q22: {
+       title: 'Question 22',
+       question: "In the series Westworld, The Bicameral Mind theory is used to explain the hosts gaining sentience. The theory states that the early man had two halves of the brain, where one was responsible for all perception and the other talked to it, telling it what to do. This was seen by the early man as Voice of God. Assuming the Bicameral mind theory was true, what form of dementia would be easily explainable under the theory?"
+     },
+     Q23: {
+       title: 'Question 23',
+       question: "In the movie Contact, why do the aliens broadcast the signal encoded in the 52 years old Hitler's Olympic games inaugural speech only? Hint Hitler's speech was the first video to be leaked to the outer space"
+     },
+     Q24: {
+       title: 'Question 24',
+       question: "In the movie The Man from Earth, what scientific explanation can be given for a human being living for 14,000 years?"
+     },
+     Q25: {
+       title: 'Question 25',
+       question: "In this video clip from the movie Gravity, since both Dr. Stone and Kowalski are weightless, stationary and have the same angular momentum, keen scientific observers claim that all Dr. Stone had to do was give the tether a gentle tug to pull Kowalski towards her. But this a false flaw and the movie indeed is accurate to the science. How?"
+     },
+     Q26: {
+       title: 'Question 26',
+       question: "Guess the movie from the picture"
+     },
+     Q27: {
+       title: 'Question 27',
+       question: "In the Foundation Trilogy, Isaac Asimov came up with a new branch of science called Psychohistory which was a mathematical model that was used by Hari Seldon to predict the course of future events and the eminent downfall of the Galactic Empire. Asimov was inspired by the kinetic model of gases, which is mathematical model that predicts the behaviour of gases just by assuming a small number of postulates.Can you figure out some of the assumptions necessary for the working of psychohistory, drawing an analogy with the assumptions required for the kinetic theory of gases?"
+     },
+     Q28: {
+       title: 'Question 28',
+       question: "Lightsabres are one of the most famous items that the Star Wars franchise has given us. Some physicists have suggested that they could be made using magnetic fields to control plasma, which is a gas that has been stripped off all of its electrons, leaving it completely ionised. This is done by superheating the gas.Assuming that there are energy sources that can create plasma and are small enough to be housed in the holster of the lightsabre, what are the problems with the above scenario?"
+     },
+     Q29: {
+       title: 'Question 29',
+       question: "When the Death Star is used for the first time in Star Wars A New Hope to destroy the planet of Alderaan, it is shown that six beams of light converge to form one beam, which is then fired on the planet.What is wrong with the above scenario?"
+     },
+     Q30: {
+       title: 'Question 30',
+       question: "The biggest twist in the movie Zathura A Space Adventure is that the astronaut who comes to help the brothers in their adventure is actually the older brother himself in his future form. How can they both exist simultaneously? Give a proof from the movie to support your claim."
+     },
+     Q31: {
+       title: 'Question 31',
+       question: "In the movie Edge of Tomorrow starring Tom Cruise and Emily Blunt, Omega created several time loops in order to know all the future events of the next day. After incidentally killing one of the Alphas even Cage knew what was going to happen next. Does this mean that all the powers of Omega were shared with Cage?"
+     },
+	Q32: {
+       title: 'Question 32',
+       question: "In the movie Contact, The President of the United States is stuck in a complicated situation when Dr. Eleanor Arroway  actually visited Vega in a matter of few seconds. This is because Vega is 26 light years away and a round trip even at the speed of light would take about 52 earth years. Being the National scientific advisor and a senior scientist, what scientific phenomenon would you give for to explain this?"
+     },
+	Q33: {
+       title: 'Question 33',
+       question: "In the movie Interstellar, when Ranger 2 piloted by Cooper and Lander 1, piloted by TARS eject from the Endurance, they spiral down towards Gargantuas event horizon and then through it. What would Dr. Brand see from Endurance assuming the ship was stable enough and was there for considerable amount of time?"
+     },
+     Q34: {
+       title: 'Question 34',
+       question: "In the Journey to the Centre of the Earth, how does the air stay in the center of the earth? Why doesnt it get out by the entrances to the center?"
+     },
+     Q35: {
+       title: 'Question 35',
+       question: "In Doraemon, the pocket of Doraemon is shown to be virtually infinite containing all his gadgets big and small. What phenomenon according to you explains this? What could the opening of the pocket signify?"
+     },
+     Q36: {
+       title: 'Question 36',
+       question: "Guess the movie"
+     }
+   }
+
+  $(document).ready(function() {
+    var elem = document.getElementsByTagName('li');
+    var modal = document.getElementById('myModal');
+    var close = document.getElementsByClassName("close")[0];
+    var count_ans = 0;
+
+    function hide(){
+      el = this;
+      var q = ques_bank['Q' + el.innerHTML];
+
+      $('#ques_header').empty();
+      $('#modal-body').empty();
+
+      $('#ques_header').html(q.title);
+      $('<p>').html(q.question).appendTo('#modal-body');
+
+       modal.style.display = "block";
+
+       // When the user clicks on <span> (x), close the modal
+       close.onclick = function() {
+          modal.style.display = "none";
+          count_ans++;
+          if(count_ans == 6)
+            {
+              var layer_2 = document.getElementsByClassName("layer2");
+              for(var j=0; j<12; j++){
+                layer_2[j].style.background = '#B75D69';
+              }
+            }
+          if(count_ans == 12)
+            {
+              var layer_3 = document.getElementsByClassName("layer3");
+              for(var k=0; k<12; k++){
+                layer_3[k].style.background = '#B75D69';
+              }
+            }
+          setTimeout(function(){
+            el.style.visibility = "hidden";
+          },1000);
+       }
+
+      ////// When the user clicks anywhere outside of the modal, close it
+      //  window.onclick = function(event) {
+          // if (event.target == modal) {
+              // modal.style.display = "none";
+              // setTimeout(function(){
+                // el.style.visibility = "hidden";
+              // },500);
+          // }
+      //  }
+     }
+
+    for(var i=0; i<36; i++)
+      elem[i].addEventListener('click',hide);
+  });
+  </script>
+</body>
+</html>
